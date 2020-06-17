@@ -4,7 +4,9 @@ function paginate(array, page_size, page_number) {
   page_size = parseInt(page_size);
   page_number = parseInt(page_number);
 
-  return array.slice(page_number * page_size, (page_number + 1) * page_size);
+  return array.length > page_size
+    ? array.slice(page_number * page_size, (page_number + 1) * page_size)
+    : array;
 }
 
 function sortArray(array, order) {
@@ -34,7 +36,7 @@ function getAllData(req, res) {
 
   return res.json({
     data: dataWithSort,
-    list_count: dataArray.length,
+    list_count: data.length,
   });
 }
 
