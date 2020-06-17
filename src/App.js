@@ -1,20 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  TableSortLabel,
-  InputBase,
-  IconButton,
-  TablePagination,
-} from "@material-ui/core";
 import axios from "axios";
-import SearchIcon from "@material-ui/icons/Search";
+import { TableInner } from "./TableInner";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -31,16 +18,9 @@ function App() {
 
   const handleRequestSort = (event) => {
     const isAsc = order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    getList(pageNumber);
-    //sortArray(order);
-  };
-
-  const sortArray = async (order) => {
-    /* var result = await axios.get(
-      `/api/get_sorted_list?order=${order}&page=${pageNumber}&count=${rowsPerPage}&filter=${searchInput.toLowerCase()}`
-    );
-    setUsers(result.data.data);*/
+    let localOrder = isAsc ? "desc" : "asc";
+    setOrder(localOrder);
+    getList(pageNumber, localOrder, rowsPerPage);
   };
 
   const handleChangeSearchInput = (e) => {
@@ -48,52 +28,54 @@ function App() {
   };
 
   const filterUsers = async (e) => {
-    getList(pageNumber);
+    getList(pageNumber, order, rowsPerPage);
   };
 
-  const getList = async (page) => {
+  const getList = async (page, order, rowsPerPage) => {
     var result = await axios.get(
       `/api/get_list?filter=${searchInput.toLowerCase()}&page=${page}&count=${rowsPerPage}&order=${order}`
     );
 
     setUsers(result.data.data);
     setCommonCountOfRows(result.data.list_count);
-    //console.log(result.data);
-    //return result.data;
-    // var data = await result.data.data.json();
-    //  return data;
-    // return result.data.data.json();
-    //setUsers(result.data.data);
-    //setCommonCountOfRows(result.data.list_count);
   };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    getList(newPage);
-    //setUsers(getList(newPage));
-    //setCommonCountOfRows(users.length);
+    getList(newPage, order, rowsPerPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    setUsers([]);
+    getList(pageNumber, order, parseInt(event.target.value, 10));
   };
 
   useEffect(() => {
-    //getList();
     if (users.length === 0) {
-      let qqq = getList(0);
-      // console.log(qqq);
-      //setUsers(qqq.data);
-      //setCommonCountOfRows(qqq.list_count);
-      // setUsers(qqq.data);
-    } //setUsers(getList(pag));
-    // setCommonCountOfRows(users.length);
-    //setUsers(getList(pageNumber)); //getList();
+      getList(pageNumber, order, rowsPerPage);
+    }
   }, []);
 
   return (
+    <>
+      <TableInner
+        order={order}
+        handleRequestSort={handleRequestSort}
+        searchInput={searchInput}
+        handleChangeSearchInput={handleChangeSearchInput}
+        filterUsers={filterUsers}
+        users={users}
+        rowsPerPage={rowsPerPage}
+        commonCountOfRows={commonCountOfRows}
+        pageNumber={pageNumber}
+        handleChangePage={handleChangePage}
+        handleChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+    </>
+  );
+
+  /* return (
     <>
       <Paper>
         <TableContainer className="tableConteiner">
@@ -158,7 +140,7 @@ function App() {
         </TableContainer>
       </Paper>
     </>
-  );
+  );*/
 }
 
 export default App;

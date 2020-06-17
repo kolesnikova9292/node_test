@@ -70,6 +70,8 @@ function getAllUsers(req, res) {
   var count = req.query.count ? req.query.count : dataArray.length;
   var order = req.query.order ? req.query.order : "asc";
 
+  console.log(order);
+
   console.log(filter);
 
   let data = paginate(dataArray, count, page).filter(
