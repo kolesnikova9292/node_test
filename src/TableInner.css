@@ -4,6 +4,10 @@
   padding: 20px;
 }
 
+.filterInput {
+  min-width: 260px;
+}
+
 .button-for-mobile {
   display: none !important;
 }

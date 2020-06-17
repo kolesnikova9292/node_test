@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 import { TableInner } from "./TableInner";
+import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
 function App() {
-  const [users, setUsers] = useState([]);
+  const [datalist, setDatalist] = useState([]);
 
   const [order, setOrder] = React.useState("asc");
 
@@ -15,6 +19,8 @@ function App() {
   const [pageNumber, setPage] = React.useState(0);
 
   const [commonCountOfRows, setCommonCountOfRows] = React.useState(0);
+
+  const [open, setOpen] = React.useState(false);
 
   const handleRequestSort = (event) => {
     const isAsc = order === "asc";
@@ -27,17 +33,23 @@ function App() {
     setSearchInput(e.target.value);
   };
 
-  const filterUsers = async (e) => {
-    getList(pageNumber, order, rowsPerPage);
+  const filterData = async (e) => {
+    setPage(0);
+    setOrder("asc");
+    getList(0, order, rowsPerPage);
   };
 
   const getList = async (page, order, rowsPerPage) => {
-    var result = await axios.get(
-      `/api/get_list?filter=${searchInput.toLowerCase()}&page=${page}&count=${rowsPerPage}&order=${order}`
-    );
+    try {
+      const result = await axios.get(
+        `/api/get_list?filter=${searchInput.toLowerCase()}&page=${page}&count=${rowsPerPage}&order=${order}`
+      );
 
-    setUsers(result.data.data);
-    setCommonCountOfRows(result.data.list_count);
+      setDatalist(result.data.data);
+      setCommonCountOfRows(result.data.list_count);
+    } catch (error) {
+      setOpen(true);
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -52,10 +64,14 @@ function App() {
   };
 
   useEffect(() => {
-    if (users.length === 0) {
+    if (datalist.length === 0) {
       getList(pageNumber, order, rowsPerPage);
     }
   }, []);
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
 
   return (
     <>
@@ -64,83 +80,26 @@ function App() {
         handleRequestSort={handleRequestSort}
         searchInput={searchInput}
         handleChangeSearchInput={handleChangeSearchInput}
-        filterUsers={filterUsers}
-        users={users}
+        filterData={filterData}
+        datalist={datalist}
         rowsPerPage={rowsPerPage}
         commonCountOfRows={commonCountOfRows}
         pageNumber={pageNumber}
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        message="Ошибка соединения с сервером"
+      />
     </>
   );
-
-  /* return (
-    <>
-      <Paper>
-        <TableContainer className="tableConteiner">
-          <TableSortLabel
-            active={true}
-            direction={order}
-            onClick={handleRequestSort}
-            className="button-for-mobile"
-          >
-            Сортировать по номеру
-          </TableSortLabel>
-          <InputBase
-            placeholder="Фильтр по логину"
-            inputProps={{ "aria-label": "search google maps" }}
-            value={searchInput}
-            onChange={handleChangeSearchInput}
-          />
-          <IconButton aria-label="search" onClick={filterUsers}>
-            <SearchIcon />
-          </IconButton>
-          <Table className="tableInner" aria-label="simple table">
-            <TableHead className="table-head">
-              <TableRow>
-                <TableCell className="cell_header">
-                  <TableSortLabel
-                    active={true}
-                    direction={order}
-                    onClick={handleRequestSort}
-                  >
-                    №
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell className="cell_header">Имя</TableCell>
-                <TableCell className="cell_header">Значение</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map((row) => (
-                <TableRow component="tr" key={row.id}>
-                  <TableCell className="cell" aria-label="Номер">
-                    {row.id}
-                  </TableCell>
-                  <TableCell className="cell" aria-label="Имя">
-                    {row.name}
-                  </TableCell>
-                  <TableCell className="cell" aria-label="Фамилия">
-                    {row.value}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            rowsPerPage={rowsPerPage}
-            count={commonCountOfRows}
-            page={pageNumber}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </TableContainer>
-      </Paper>
-    </>
-  );*/
 }
 
 export default App;

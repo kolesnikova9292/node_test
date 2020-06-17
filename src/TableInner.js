@@ -13,7 +13,6 @@ import {
   IconButton,
   TablePagination,
 } from "@material-ui/core";
-import axios from "axios";
 import SearchIcon from "@material-ui/icons/Search";
 
 export const TableInner = ({
@@ -21,8 +20,8 @@ export const TableInner = ({
   handleRequestSort,
   searchInput,
   handleChangeSearchInput,
-  filterUsers,
-  users,
+  filterData,
+  datalist,
   rowsPerPage,
   commonCountOfRows,
   pageNumber,
@@ -42,12 +41,20 @@ export const TableInner = ({
             Сортировать по номеру
           </TableSortLabel>
           <InputBase
-            placeholder="Фильтр по логину"
+            placeholder="Фильтр по имени или по значению"
             inputProps={{ "aria-label": "search google maps" }}
             value={searchInput}
             onChange={handleChangeSearchInput}
+            className="filterInput"
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                filterData();
+                // write your functionality here
+              }
+            }}
           />
-          <IconButton aria-label="search" onClick={filterUsers}>
+          <IconButton aria-label="search" onClick={filterData}>
             <SearchIcon />
           </IconButton>
           <Table aria-label="simple table" className="tableInner">
@@ -67,11 +74,11 @@ export const TableInner = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((row) => (
+              {datalist.map((row) => (
                 <TableRow component="tr" key={row.id}>
                   <TableCell aria-label="Номер">{row.id}</TableCell>
                   <TableCell aria-label="Имя">{row.name}</TableCell>
-                  <TableCell aria-label="Фамилия">{row.value}</TableCell>
+                  <TableCell aria-label="Значение">{row.value}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

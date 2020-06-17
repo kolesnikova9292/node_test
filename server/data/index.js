@@ -1,33 +1,63 @@
 const dataArray = [
   {
     id: 1,
-    name: "dfd",
-    value: "qqq",
+    name: "AAA",
+    value: "1.02",
   },
   {
     id: 2,
-    name: "pppp",
-    value: "qqq",
+    name: "AAB",
+    value: "1.5",
   },
   {
     id: 3,
-    name: "tttt",
-    value: "qqq",
+    name: "AAC",
+    value: "2",
   },
   {
     id: 4,
-    name: "dfd",
-    value: "qqq",
+    name: "AAD",
+    value: "2",
   },
   {
     id: 5,
-    name: "pppp",
-    value: "qqq",
+    name: "AAE",
+    value: "1.9",
   },
   {
     id: 6,
-    name: "tttt",
-    value: "qqq",
+    name: "AAF",
+    value: "1.53",
+  },
+  {
+    id: 7,
+    name: "AAG",
+    value: "1.6",
+  },
+  {
+    id: 8,
+    name: "AAH",
+    value: "1.46",
+  },
+  {
+    id: 9,
+    name: "AAI",
+    value: "1.01",
+  },
+  {
+    id: 10,
+    name: "AAJ",
+    value: "1.08",
+  },
+  {
+    id: 11,
+    name: "AAH",
+    value: "1.38",
+  },
+  {
+    id: 12,
+    name: "AAH",
+    value: "1.54",
   },
 ];
 
