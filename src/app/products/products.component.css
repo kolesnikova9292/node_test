@@ -1,0 +1,9 @@
+.list-and-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.products-list-part-style {
+  width: 80%;
+}

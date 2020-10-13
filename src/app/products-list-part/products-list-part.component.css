@@ -1,0 +1,51 @@
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+tr {
+  padding: 10px;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+  border: 1px solid white !important;
+}
+
+tr:nth-child(even) td {
+  border: 1px solid white !important;
+}
+
+.button {
+  height: 47px;
+  width: 110px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 30px;
+  margin: 0 20px;
+}
+
+.button__delete {
+  border: 1px red solid;
+  background-color: white;
+  color: red;
+}
+
+.button__details {
+  border: 1px green solid;
+  background-color: white;
+  color: green;
+}
+
+.button:focus {
+  outline: none;
+  background-color: yellow;
+}

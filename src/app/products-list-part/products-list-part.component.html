@@ -1,0 +1,29 @@
+<div class="my_list">
+
+  <table>
+    <tr>
+      <th>Название</th>
+      <th>Стоимость</th>
+      <th>Категория</th>
+      <th></th>
+      <th></th>
+    </tr>
+
+    <ng-container *ngFor="let value of list">
+      <tr *ngIf="value.category == selectedValue || selectedValue == '0'">
+        <td>
+          {{value.name}}
+        </td>
+        <td>
+          {{value.price}}
+        </td>
+        <td>
+          {{ getCategory(value.category) }}
+        </td>
+        <td><button (click)="deleteElement(value.id)" class="button button__delete">Удалить</button></td>
+        <td><button (click)="showElement(value)" class="button button__details">Подробнее</button></td>
+
+      </tr>
+    </ng-container>
+  </table>
+</div>

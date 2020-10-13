@@ -1,0 +1,35 @@
+.header {
+  height: 130px;
+}
+
+.container {
+  width: 1141px;
+  margin: 0 auto;
+}
+
+.menu__list {
+  font-size: 14px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding-inline-start: 0px !important;
+  justify-content: space-between;
+}
+
+
+.menu {
+  width: 407px;
+}
+
+.menu__link--active {
+  color: red !important;
+}
+
+.menu__link:hover {
+  color: red;
+}
+
+.menu__link:focus {
+  outline: none;
+  color: red;
+}

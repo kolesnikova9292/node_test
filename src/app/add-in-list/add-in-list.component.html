@@ -1,0 +1,51 @@
+<h3>Добавить элемент</h3>
+
+
+<div class="container">
+  <form novalidate [formGroup]="addElementForm" (ngSubmit)="onSubmit(addElementForm)">
+
+    <div class="form-group">
+      <label for="name">Имя</label>
+
+      <input type="text" class="form-control" id="name" formControlName="name">
+
+      <div *ngIf="addElementForm.get('name').hasError('required') && 
+            addElementForm.get('name').touched" class="alert alert-danger">
+        Обязательное поле.
+      </div>
+
+      <div *ngIf="addElementForm.get('name').hasError('minlength') && 
+            addElementForm.get('name').touched" class="alert alert-danger">
+        Длина строки должна быть не менее 4 символов.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Цена</label>
+
+      <input type="number" class="form-control" id="price" formControlName="price">
+
+      <div *ngIf="addElementForm.get('price').hasError('required') && 
+            addElementForm.get('price').touched" class="alert alert-danger">
+        Обязательное поле.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Категория </label>
+
+      <select id="category" class="form-control" id="category" formControlName="category">
+        <option value="0" disabled="true" [selected]="true">Выберите категорию</option>
+        <option *ngFor="let option of categoryList" [ngValue]="option.id">{{option.name}}</option>
+      </select>
+
+      <div *ngIf="addElementForm.get('category').touched &&
+      addElementForm.get('category').hasError('selected')" class="alert alert-danger">
+        Обязательное поле.
+      </div>
+
+    </div>
+
+    <input type="submit" class="btn btn-degault" [disabled]="addElementForm.invalid" value="Добавить элемент">
+  </form>
+</div>
